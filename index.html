@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Cala · Savings Circle Landing Page</title>
+<style>
+:root {
+  --navy: #051956;
+  --blue: #0b41cd;
+  --gold: #facc15;
+  --ink: #0f172a;
+  --muted: #475569;
+  --line: #cbd5e1;
+  --bg: #f1f5f9;
+  --card: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #090d16;
+    --card: #131b2e;
+    --ink: #f8fafc;
+    --muted: #94a3b8;
+    --line: #1e293b;
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 20px;
+  line-height: 1.45;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 20px 16px 48px;
+}
+
+.hero {
+  background: linear-gradient(160deg, var(--navy), var(--blue));
+  color: #ffffff;
+  padding: 36px 24px;
+  border-radius: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 25px rgba(5, 25, 86, 0.2);
+}
+
+.hero h1 {
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 19px;
+  opacity: 0.95;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--navy);
+  margin: 28px 4px 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .section-title { color: var(--gold); }
+}
+
+.steps-card {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.step {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.step:last-child { margin-bottom: 0; }
+
+.step-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  font-weight: 900;
+  flex: none;
+}
+
+.step-text h3 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.step-text p {
+  font-size: 17px;
+  color: var(--muted);
+}
+
+.cta-box {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  border: 0;
+  border-radius: 16px;
+  padding: 18px;
+  font-size: 21px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.btn:active { transform: scale(0.98); }
+
+.btn-primary {
+  background: var(--blue);
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background: var(--gold);
+  color: var(--navy);
+}
+
+.footer {
+  text-align: center;
+  font-size: 15px;
+  color: var(--muted);
+  margin-top: 32px;
+}
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>Stop chasing payments in notebooks and WhatsApp group chats.</h1>
+    <p>A simple savings circle tool built for ordinary members and organisers in Blanchardstown.</p>
+  </div>
+
+  <h2 class="section-title">How it works</h2>
+  <div class="steps-card">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <h3>Choose your language</h3>
+        <p>Open on your phone in English, Polish, Hindi, or Romanian.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <h3>See who paid</h3>
+        <p>Everyone in the circle can check payment dates and next payouts instantly.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <h3>Clear rules & penalties</h3>
+        <p>Late payments automatically add a clear fee so arguments are avoided.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <a href="app.html" class="btn btn-primary">Try the prototype</a>
+    <a href="https://forms.gle/placeholder" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Join the waiting list</a>
+  </div>
+
+  <div class="footer">
+    Cala · Blanchardstown Dublin 15 Savings Circle
+  </div>
+
+</body>
+</html>

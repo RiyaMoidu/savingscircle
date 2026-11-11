@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Cala · Savings Circle</title>
+<style>
+:root {
+  --navy: #051956;
+  --blue: #0b41cd;
+  --gold: #facc15;
+  --gold-dark: #854d0e;
+  --ink: #0f172a;
+  --muted: #475569;
+  --line: #cbd5e1;
+  --bg: #f1f5f9;
+  --card: #ffffff;
+  --ok: #15803d;
+  --ok-bg: #dcfce7;
+  --late: #b91c1c;
+  --late-bg: #fee2e2;
+  --wait: #b45309;
+  --wait-bg: #fef3c7;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #090d16;
+    --card: #131b2e;
+    --ink: #f8fafc;
+    --muted: #94a3b8;
+    --line: #1e293b;
+    --ok: #4ade80;
+    --ok-bg: #14532d;
+    --late: #fca5a5;
+    --late-bg: #451a1a;
+    --wait: #fcd34d;
+    --wait-bg: #451a03;
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 20px;
+  line-height: 1.45;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* SCREEN 1: Language & Protocol Title */
+.hero-banner {
+  background: linear-gradient(135deg, var(--navy), var(--blue));
+  color: #fff;
+  padding: 40px 20px 30px;
+  text-align: center;
+}
+
+.hero-banner h1 {
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.hero-banner p {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+.lang-card {
+  padding: 24px 20px;
+}
+
+.lang-card h2 {
+  font-size: 24px;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .lang-card h2 { color: var(--gold); }
+}
+
+.lang-card p {
+  color: var(--muted);
+  font-size: 19px;
+  margin-bottom: 24px;
+}
+
+.lang-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: var(--card);
+  border: 3px solid var(--blue);
+  color: var(--navy);
+  border-radius: 18px;
+  padding: 18px 20px;
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(11,65,205,0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .lang-btn { color: var(--ink); background: var(--card); border-color: var(--blue); }
+}
+
+.lang-btn span { font-size: 24px; color: var(--blue); }
+.lang-btn:active { background: var(--gold); transform: scale(0.98); }
+
+/* SCREEN 2: Dashboard */
+.head {
+  background: linear-gradient(160deg, var(--navy), var(--blue));
+  color: #ffffff;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 20px 50px;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.chg-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.circle-badge {
+  background: rgba(250, 204, 21, 0.25);
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.lbl {
+  font-size: 19px;
+  opacity: 0.95;
+  margin-top: 10px;
+}
+
+.payout-name {
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1.1;
+  margin: 4px 0 10px;
+}
+
+.rule-box {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 17px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.next-up {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Summary Card */
+.summary-card {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 20px;
+  margin: -36px 16px 20px;
+  padding: 18px;
+  box-shadow: 0 10px 25px rgba(5, 25, 86, 0.15);
+}
+
+.big-stat {
+  font-size: 34px;
+  font-weight: 900;
+  color: var(--navy);
+}
+
+@media (prefers-color-scheme: dark) {
+  .big-stat { color: var(--gold); }
+}
+
+.progress-bar {
+  height: 18px;
+  background: var(--line);
+  border-radius: 99px;
+  margin: 12px 0 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--gold));
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.sub-stat {
+  font-size: 17px;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* List Items */
+h3.section-header {
+  font-size: 24px;
+  color: var(--navy);
+  margin: 24px 16px 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  h3.section-header { color: var(--gold); }
+}
+
+.member-card {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  margin: 0 16px 14px;
+  padding: 16px;
+}
+
+.member-card.is-paid {
+  border-color: #86efac;
+  background: var(--ok-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  .member-card.is-paid { background: #0c2b17; border-color: #15803d; }
+}
+
+.member-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.member-info b {
+  font-size: 24px;
+  display: block;
+}
+
+.member-info .date-text {
+  font-size: 16px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.badge-tag {
+  font-size: 15px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: var(--wait-bg);
+  color: var(--wait);
+  white-space: nowrap;
+}
+
+.badge-tag.ok {
+  background: #bbf7d0;
+  color: var(--ok);
+}
+
+.badge-tag.late {
+  background: var(--late-bg);
+  color: var(--late);
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  border: 0;
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 21px;
+  font-weight: 800;
+  background: var(--blue);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.btn:active { transform: scale(0.98); }
+
+.btn.undo {
+  background: transparent;
+  color: var(--muted);
+  border: 2px solid var(--line);
+  font-size: 17px;
+  padding: 10px;
+}
+
+.all-done {
+  margin: 0 16px 14px;
+  background: var(--ok-bg);
+  color: var(--ok);
+  border-radius: 18px;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: 900;
+  text-align: center;
+  border: 2px solid #86efac;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  transform: translate(-50%, 140px);
+  background: var(--navy);
+  color: #ffffff;
+  padding: 14px 22px;
+  border-radius: 14px;
+  font-size: 19px;
+  font-weight: 700;
+  transition: transform 0.3s ease;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: 100;
+}
+
+.toast.show {
+  transform: translate(-50%, 0);
+}
+
+.foot {
+  text-align: center;
+  padding: 24px 16px;
+}
+
+.foot button {
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font-size: 17px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- SCREEN 1: Language Selection -->
+<section class="screen active" id="s1">
+  <div class="hero-banner">
+    <h1>Cala Savings Circle</h1>
+    <p>Blanchardstown, Dublin 15</p>
+  </div>
+  <div class="lang-card">
+    <h2>Select Language</h2>
+    <p>Wybierz język · भाषा चुनें · Alege limba</p>
+    
+    <button class="lang-btn" data-l="en">English <span>→</span></button>
+    <button class="lang-btn" data-l="pl">Polski <span>→</span></button>
+    <button class="lang-btn" data-l="hi">हिन्दी <span>→</span></button>
+    <button class="lang-btn" data-l="ro">Română <span>→</span></button>
+  </div>
+</section>
+
+<!-- SCREEN 2: Main Circle Dashboard -->
+<section class="screen" id="s2">
+  <div class="head">
+    <div class="top-bar">
+      <button class="chg-btn" id="chgBtn">← Language</button>
+      <span class="circle-badge">Blanchardstown D15</span>
+    </div>
+    
+    <div class="lbl" id="tTurn">This month the €1,000 pot goes to:</div>
+    <div class="payout-name" id="rName">Dara O’Connor</div>
+    <div class="next-up" id="nxt">Next month: Aisha Patel</div>
+    <div class="rule-box" id="tRule">Pay €100 by the 10th. Late fee: +€10 penalty after 10th. Payout on 12th.</div>
+  </div>
+
+  <div class="summary-card">
+    <div class="big-stat" id="coll">7 / 10 paid</div>
+    <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+    <div class="sub-stat">
+      <span id="cnt">€700 / €1,000</span>
+      <span>Due 10th Nov</span>
+    </div>
+  </div>
+
+  <h3 class="section-header" id="hWait">Waiting to pay</h3>
+  <div id="waitingList"></div>
+
+  <h3 class="section-header" id="hPaid">Paid this month</h3>
+  <div id="paidList"></div>
+
+  <div class="foot">
+    <button id="resetBtn">Reset demo data</button>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const T = {
+  en: {
+    chg: "Language",
+    turn: "This month the €1,000 pot goes to:",
+    next: "Next month:",
+    rule: "Pay €100 by the 10th. Late fee: +€10 penalty after 10th. Payout on 12th.",
+    paidOf: "paid",
+    wait: "Waiting to pay",
+    paid: "Paid this month",
+    mark: "Mark as paid",
+    markLate: "Mark paid + €10 penalty",
+    undo: "Undo",
+    all: "Everyone has paid! Release €1,000.",
+    late: "Late (+€10)",
+    due: "Due Date:",
+    paidOn: "Paid on:",
+    ok: "Paid ✓",
+    reset: "Reset demo data",
+    got: "Payment recorded from"
+  },
+  pl: {
+    chg: "Język",
+    turn: "W tym miesiącu €1,000 dostaje:",
+    next: "Następny miesiąc:",
+    rule: "Wpłać €100 do 10-go. Karą za spóźnienie jest +€10. Wypłata 12-go.",
+    paidOf: "zapłaciło",
+    wait: "Czeka na wpłatę",
+    paid: "Zapłacone w tym miesiącu",
+    mark: "Oznacz jako zapłacone",
+    markLate: "Wpłata z karą +€10",
+    undo: "Cofnij",
+    all: "Wszyscy zapłacili! Wypłać €1,000.",
+    late: "Spóźnienie (+€10)",
+    due: "Termin:",
+    paidOn: "Zapłacono:",
+    ok: "Zapłacone ✓",
+    reset: "Zresetuj dane demo",
+    got: "Otrzymano wpłatę od"
+  },
+  hi: {
+    chg: "भाषा",
+    turn: "इस महीने €1,000 का पॉट किसे मिलेगा:",
+    next: "अगले महीने:",
+    rule: "10 तारीख तक €100 दें। 10 के बाद €10 जुर्माना। 12 को भुगतान।",
+    paidOf: "ने भुगतान किया",
+    wait: "भुगतान बाकी",
+    paid: "इस महीने भुगतान किया गया",
+    mark: "भुगतान मिला – दर्ज करें",
+    markLate: "दर्ज करें + €10 जुर्माना",
+    undo: "वापस करें",
+    all: "सबने भुगतान कर दिया! €1,000 दें।",
+    late: "देर (+€10)",
+    due: "अंतिम तिथि:",
+    paidOn: "भुगतान तिथि:",
+    ok: "भुगतान हुआ ✓",
+    reset: "डेमो रीसेट करें",
+    got: "भुगतान प्राप्त हुआ:"
+  },
+  ro: {
+    chg: "Limbă",
+    turn: "Luna aceasta potul de €1,000 merge la:",
+    next: "Luna viitoare:",
+    rule: "Plătește €100 până pe 10. Penalizare întârziere: +€10. Plata se face pe 12.",
+    paidOf: "au plătit",
+    wait: "Așteaptă plata",
+    paid: "Plătit luna aceasta",
+    mark: "Marchează ca plătit",
+    markLate: "Plătit + €10 penalizare",
+    undo: "Anulează",
+    all: "Toți au plătit! Eliberează €1,000.",
+    late: "Întârziat (+€10)",
+    due: "Data limită:",
+    paidOn: "Plătit la:",
+    ok: "Plătit ✓",
+    reset: "Resetează datele demo",
+    got: "S-a primit plata de la"
+  }
+};
+
+const ROUND = 3;
+const BASE_AMT = 100;
+const PENALTY_AMT = 10;
+
+const seed = () => [
+  { n: "Chloe Smith", turn: 1, p: true, date: "02 Nov", late: false },
+  { n: "Daniel Ryan", turn: 2, p: true, date: "04 Nov", late: false },
+  { n: "Dara O’Connor", turn: 3, p: true, date: "05 Nov", late: false },
+  { n: "Aisha Patel", turn: 4, p: true, date: "08 Nov", late: false },
+  { n: "Ciara Murphy", turn: 5, p: true, date: "09 Nov", late: false },
+  { n: "Elena Rossi", turn: 6, p: true, date: "10 Nov", late: false },
+  { n: "Liam Walsh", turn: 7, p: true, date: "10 Nov", late: false },
+  { n: "Mateo Silva", turn: 8, p: false, date: "Due 10 Nov", late: false },
+  { n: "Sean Kelly", turn: 9, p: false, date: "Due 10 Nov (Overdue)", late: true },
+  { n: "Grace Byrne", turn: 10, p: false, date: "Due 10 Nov", late: false }
+];
+
+let M = seed();
+let L = "en";
+let toastTimer;
+
+const $ = id => document.getElementById(id);
+
+function showToast(msg) {
+  const el = $("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 2500);
+}
+
+function createRow(m, d) {
+  const el = document.createElement("div");
+  el.className = "member-card" + (m.p ? " is-paid" : "");
+  
+  const amt = m.late ? (BASE_AMT + PENALTY_AMT) : BASE_AMT;
+  const tag = m.p 
+    ? `<span class="badge-tag ok">${d.ok}</span>`
+    : (m.late ? `<span class="badge-tag late">${d.late}</span>` : `<span class="badge-tag">€${amt}</span>`);
+
+  const dateLabel = m.p ? `${d.paidOn} ${m.date}` : `${d.due} ${m.date}`;
+
+  el.innerHTML = `
+    <div class="member-row">
+      <div class="member-info">
+        <b>${m.n}</b>
+        <div class="date-text">${dateLabel}</div>
+      </div>
+      ${tag}
+    </div>
+  `;
+
+  const b = document.createElement("button");
+  if (m.p) {
+    b.className = "btn undo";
+    b.textContent = d.undo;
+    b.onclick = () => {
+      m.p = false;
+      render();
+    };
+  } else {
+    b.className = "btn";
+    b.textContent = (m.late ? d.markLate : d.mark) + " · €" + amt;
+    b.onclick = () => {
+      m.p = true;
+      m.date = "11 Nov (Today)";
+      render();
+      showToast(`${d.got} ${m.n.split(" ")[0]} (€${amt})`);
+    };
+  }
+
+  el.appendChild(b);
+  return el;
+}
+
+function render() {
+  const d = T[L];
+  document.documentElement.lang = L;
+
+  $("chgBtn").textContent = "← " + d.chg;
+  $("tTurn").textContent = d.turn;
+  $("tRule").textContent = d.rule;
+  $("hWait").textContent = d.wait;
+  $("hPaid").textContent = d.paid;
+  $("resetBtn").textContent = d.reset;
+
+  const recipient = M.find(m => m.turn === ROUND);
+  const nextUp = M.find(m => m.turn === ROUND + 1);
+
+  $("rName").textContent = recipient.n;
+  $("nxt").textContent = d.next + " " + nextUp.n;
+
+  const paidList = M.filter(m => m.p);
+  const waitList = M.filter(m => !m.p);
+
+  const currentTotal = paidList.reduce((sum, m) => sum + (m.late ? BASE_AMT + PENALTY_AMT : BASE_AMT), 0);
+  const targetTotal = M.length * BASE_AMT;
+
+  $("coll").textContent = `${paidList.length} / ${M.length} ${d.paidOf}`;
+  $("fill").style.width = Math.min(100, (paidList.length / M.length * 100)) + "%";
+  $("cnt").textContent = `€${currentTotal.toLocaleString("en-IE")} / €${targetTotal.toLocaleString("en-IE")}`;
+
+  const wContainer = $("waitingList");
+  const pContainer = $("paidList");
+  wContainer.innerHTML = "";
+  pContainer.innerHTML = "";
+
+  waitList.sort((a, b) => a.turn - b.turn).forEach(m => wContainer.appendChild(createRow(m, d)));
+  
+  if (!waitList.length) {
+    wContainer.innerHTML = `<div class="all-done">🎉 ${d.all}</div>`;
+  }
+
+  paidList.sort((a, b) => a.turn - b.turn).forEach(m => pContainer.appendChild(createRow(m, d)));
+}
+
+function switchScreen(id) {
+  $("s1").classList.toggle("active", id === "s1");
+  $("s2").classList.toggle("active", id === "s2");
+  window.scrollTo(0, 0);
+}
+
+document.querySelectorAll(".lang-btn").forEach(btn => {
+  btn.onclick = () => {
+    L = btn.dataset.l;
+    render();
+    switchScreen("s2");
+  };
+});
+
+$("chgBtn").onclick = () => switchScreen("s1");
+$("resetBtn").onclick = () => {
+  M = seed();
+  render();
+  showToast("Demo data reset");
+};
+
+render();
+</script>
+</body>
+</html>
